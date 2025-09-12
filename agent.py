@@ -1,4 +1,3 @@
-# agent.py
 import os
 import re
 from typing import Annotated, Sequence, TypedDict, List, Dict
@@ -18,15 +17,17 @@ from openai import OpenAI
 
 from tools import TOOLS
 
+# Load environment variables if available
 load_dotenv()
 
 # Hugging Face settings
 HF_BASE_URL = "https://router.huggingface.co/v1"
 HF_MODEL = "deepseek-ai/DeepSeek-R1-0528:novita" 
-API_KEY = os.environ.get("TOKEN")
 
-if not API_KEY:
-    raise RuntimeError("⚠️ Please set TOKEN in your .env file.")
+API_KEY = os.environ.get("TOKEN") or "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"
+
+if not API_KEY or API_KEY == "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":
+    raise RuntimeError("⚠️ Please set TOKEN in .env or hardcode your Hugging Face API key.")
 
 # Define agent state
 class AgentState(TypedDict):
