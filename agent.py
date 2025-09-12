@@ -1,8 +1,8 @@
+# agent.py
 import os
 import re
 from typing import Annotated, Sequence, TypedDict, List, Dict
 from dotenv import load_dotenv
-import streamlit as st
 
 from langchain_core.messages import (
     BaseMessage,
@@ -18,18 +18,15 @@ from openai import OpenAI
 
 from tools import TOOLS
 
-# Load environment variables locally
 load_dotenv()
 
 # Hugging Face settings
 HF_BASE_URL = "https://router.huggingface.co/v1"
-HF_MODEL = "deepseek-ai/DeepSeek-R1-0528:novita" 
-
-# First try Streamlit secrets, then environment
-API_KEY = st.secrets.get("TOKEN")
+HF_MODEL = "deepseek-ai/DeepSeek-R1-0528:novita"   # swap for another model if needed
+API_KEY = os.environ.get("TOKEN")
 
 if not API_KEY:
-    raise RuntimeError("⚠️ Please set TOKEN in Streamlit secrets or .env file")
+    raise RuntimeError("⚠️ Please set TOKEN in your .env file.")
 
 # Define agent state
 class AgentState(TypedDict):
@@ -107,5 +104,3 @@ graph.add_edge("process", "tools")
 graph.add_edge("tools", END)
 
 agent = graph.compile()
-
-
