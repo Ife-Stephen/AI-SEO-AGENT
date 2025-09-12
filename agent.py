@@ -26,7 +26,7 @@ HF_BASE_URL = "https://router.huggingface.co/v1"
 HF_MODEL = "deepseek-ai/DeepSeek-R1-0528:novita" 
 
 # First try Streamlit secrets, then environment
-API_KEY = st.secrets.get("TOKEN") or os.getenv("TOKEN")
+API_KEY = st.secrets.get("TOKEN")
 
 if not API_KEY:
     raise RuntimeError("⚠️ Please set TOKEN in Streamlit secrets or .env file")
@@ -107,4 +107,5 @@ graph.add_edge("process", "tools")
 graph.add_edge("tools", END)
 
 agent = graph.compile()
+
 
